@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -31,4 +32,11 @@ func logError(args ...interface{}) {
 func logWarning(args ...interface{}) {
 	logger.SetPrefix("WARNING:")
 	logger.Println(args...)
+}
+
+// ステータス設定(TODO エラーメッセージ追加)
+func inResponseStatus(w http.ResponseWriter, status int) {
+	// レスポンスヘッダ追加(WriteHeaderの後に記述すると無効)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.WriteHeader(status)
 }
