@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"os"
 )
 
 //User is struct
@@ -31,7 +30,7 @@ func loginHandlar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// DB接続
-	db, err := sql.Open("mysql", os.Getenv("DB_NAME")+":"+os.Getenv("DB_PASSWORD")+"@"+os.Getenv("DB_HOST")+"/"+os.Getenv("DB_NAME"))
+	db, err := sql.Open("mysql", Cnf.User+":"+Cnf.Pass+"@"+Cnf.Host+"/"+Cnf.Name)
 	if err != nil {
 		log.Fatal(err)
 	}

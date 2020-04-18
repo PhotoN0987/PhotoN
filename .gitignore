@@ -6,7 +6,7 @@
 *.dylib
 
 # Environment variable setting file
-*.env
+*.ini
 
 # Test binary, built with `go test -c`
 *.test
