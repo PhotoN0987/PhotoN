@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 	"os"
 )
@@ -17,22 +18,22 @@ func loginHandlar(w http.ResponseWriter, r *http.Request) {
 
 	logInfo("/api/login  ----------start")
 
-	// パラメータチェック
-	if r.FormValue("userId") == "" || r.FormValue("password") == "" {
-		inResponseStatus(w, http.StatusBadRequest)
-		return
-	}
-
 	// リクエストパラメータ
 	paramUserID := r.FormValue("userId")
 	paramPassword := r.FormValue("password")
 	logInfo("userId：    ", paramUserID)
 	logInfo("password：  ", paramPassword)
 
+	// パラメータチェック
+	if paramUserID == "" || paramPassword == "" {
+		inResponseStatus(w, http.StatusBadRequest)
+		return
+	}
+
 	// DB接続
 	db, err := sql.Open("mysql", os.Getenv("DB_NAME")+":"+os.Getenv("DB_PASSWORD")+"@"+os.Getenv("DB_HOST")+"/"+os.Getenv("DB_NAME"))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer db.Close()
 
@@ -56,5 +57,5 @@ func loginHandlar(w http.ResponseWriter, r *http.Request) {
 		inResponseStatus(w, http.StatusOK)
 	}
 
-	logInfo("/api/login  ----------end")
+	defer logInfo("/api/login  ----------end")
 }
