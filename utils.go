@@ -5,9 +5,19 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"gopkg.in/ini.v1"
 )
 
+type DbConfig struct {
+	User string
+	Pass string
+	Host string
+	Name string
+}
+
 var logger *log.Logger
+var Cnf DbConfig
 
 // 初期化処理(main()より先に実行)
 func init() {
@@ -16,6 +26,14 @@ func init() {
 	multiLogfile := io.MultiWriter(os.Stdout, logfile)
 	log.SetOutput(multiLogfile)
 	logger = log.New(logfile, "INFO ", log.Ldate|log.Ltime|log.Lshortfile)
+
+	c, _ := ini.Load("./config.ini")
+	Cnf = DbConfig{
+		User: c.Section("db").Key("user").String(),
+		Pass: c.Section("db").Key("pass").String(),
+		Host: c.Section("db").Key("host").String(),
+		Name: c.Section("db").Key("name").String(),
+	}
 }
 
 // ログレベル設定
