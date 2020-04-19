@@ -10,7 +10,7 @@ import (
 // メイン処理
 func main() {
 
-	logInfo("----------サーバー起動開始----------")
+	logger.Println("----------サーバー起動開始----------")
 
 	mux := http.NewServeMux()
 
