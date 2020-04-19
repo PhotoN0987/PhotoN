@@ -8,7 +8,7 @@ import (
 
 //User is struct
 type User struct {
-	email    int
+	email    string
 	password string
 }
 
