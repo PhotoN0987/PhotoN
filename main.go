@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -16,6 +17,7 @@ func main() {
 	// ハンドラ
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/api/login", loginHandlar)
+	mux.HandleFunc("/api/signup", signUpHandlar)
 
 	// サーバー設定
 	server := &http.Server{
@@ -27,5 +29,5 @@ func main() {
 
 // ハンドラー
 func index(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Fprintf(w, "Hello!")
 }
