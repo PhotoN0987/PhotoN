@@ -22,11 +22,13 @@ var Cnf DbConfig
 // 初期化処理(main()より先に実行)
 func init() {
 
+	// ログ設定
 	logfile, _ := os.OpenFile("photoN.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	multiLogfile := io.MultiWriter(os.Stdout, logfile)
 	log.SetOutput(multiLogfile)
 	logger = log.New(logfile, "INFO ", log.Ldate|log.Ltime|log.Lshortfile)
 
+	// データベース設定読み込み
 	c, _ := ini.Load("./config.ini")
 	Cnf = DbConfig{
 		User: c.Section("db").Key("user").String(),

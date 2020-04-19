@@ -8,6 +8,7 @@ import (
 
 //User is struct
 type User struct {
+	id       int
 	email    string
 	password string
 }
@@ -20,8 +21,8 @@ func loginHandlar(w http.ResponseWriter, r *http.Request) {
 	// リクエストパラメータ
 	paramUserID := r.FormValue("userId")
 	paramPassword := r.FormValue("password")
-	logInfo("userId：    ", paramUserID)
-	logInfo("password：  ", paramPassword)
+	logInfo("userId：", paramUserID)
+	logInfo("password：", paramPassword)
 
 	// パラメータチェック
 	if paramUserID == "" || paramPassword == "" {
@@ -39,13 +40,13 @@ func loginHandlar(w http.ResponseWriter, r *http.Request) {
 	// クエリ定義
 	var user User
 	query := `
-		SELECT user_id,user_password 
+		SELECT user_id,user_email,user_password 
 		FROM users
 		WHERE users.user_email = ? and users.user_password = ?`
 
 	// クエリ実行&マッピング
-	err = db.QueryRow(query, paramUserID, paramPassword).Scan(&user.email, &user.password)
-	logInfo("取得結果:user_id=", user.email, " password=", user.password)
+	err = db.QueryRow(query, paramUserID, paramPassword).Scan(&user.id, &user.email, &user.password)
+	logInfo("取得結果:user_id =", user.id, "user_email =", user.email, "user_password =", user.password)
 
 	// 取得内容精査
 	if err == sql.ErrNoRows {
