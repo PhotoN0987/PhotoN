@@ -48,7 +48,7 @@ func signUpHandlar(w http.ResponseWriter, r *http.Request) {
 
 	ins, err := db.Prepare(query)
 	if err != nil {
-		logger.Println("ーザー新規登録API:登録失敗", err)
+		logger.Println("ユーザー新規登録API:登録失敗", err)
 		inResponseStatus(w, http.StatusInternalServerError)
 		return
 	}
@@ -56,7 +56,7 @@ func signUpHandlar(w http.ResponseWriter, r *http.Request) {
 
 	_, err = ins.Exec(userPasseord, userName, userEmail)
 	if err != nil {
-		logger.Println("ーザー新規登録API:登録失敗", err)
+		logger.Println("ユーザー新規登録API:登録失敗", err)
 		inResponseStatus(w, http.StatusInternalServerError)
 		return
 	}
