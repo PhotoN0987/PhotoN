@@ -29,6 +29,7 @@ func loginHandlar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// データベース接続
 	db, err := dbConnect()
 	defer db.Close()
 
