@@ -54,6 +54,7 @@ func signUpHandlar(w http.ResponseWriter, r *http.Request) {
 	}
 	defer ins.Close()
 
+	// 登録実行
 	_, err = ins.Exec(userPasseord, userName, userEmail)
 	if err != nil {
 		logger.Println("ユーザー新規登録API:登録失敗", err)
@@ -61,6 +62,7 @@ func signUpHandlar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 成功した場合
 	logger.Println("ユーザー新規登録API:登録成功")
 	inResponseStatus(w, http.StatusOK)
 
