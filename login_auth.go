@@ -45,13 +45,14 @@ func loginHandlar(w http.ResponseWriter, r *http.Request) {
 	logger.Println("取得結果:user_id =", user.id, ",user_email =", user.email, ",user_password =", user.password)
 
 	// 取得内容精査
-	if err == nil {
+	switch err {
+	case nil:
 		logger.Println("ログイン認証API処理結果:認証成功")
 		inResponseStatus(w, http.StatusOK)
-	} else if err == sql.ErrNoRows {
+	case sql.ErrNoRows:
 		logger.Println("ログイン認証API処理結果:認証失敗", err)
 		inResponseStatus(w, http.StatusUnauthorized)
-	} else {
+	default:
 		logger.Println("ログイン認証API処理結果:認証失敗", err)
 		inResponseStatus(w, http.StatusInternalServerError)
 	}
