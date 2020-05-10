@@ -42,10 +42,11 @@ func init() {
 	}
 }
 
-// ステータス設定(TODO エラーメッセージ追加)
+// ステータス設定
 func inResponseStatus(w http.ResponseWriter, status int) {
 	// レスポンスヘッダ追加(WriteHeaderの後に記述すると無効)
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 }
 
