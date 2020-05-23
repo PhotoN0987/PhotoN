@@ -1,4 +1,4 @@
-package data
+package model
 
 // UserAuth ユーザー情報
 type UserAuth struct {

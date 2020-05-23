@@ -1,9 +1,11 @@
-package main
+package api
 
 import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/y-moriwake/PhotoN/config"
 )
 
 // SignUpRequestBody リクエストのJSON
@@ -13,10 +15,10 @@ type SignUpRequestBody struct {
 	Password string
 }
 
-// ユーザー新規登録
-func signUpHandlar(w http.ResponseWriter, r *http.Request) {
+// SignUpHandlar ユーザー新規登録
+func SignUpHandlar(w http.ResponseWriter, r *http.Request) {
 
-	logger.Println("/api/signup  ----------start")
+	config.Logger.Println("/api/signup  ----------start")
 
 	// パラメータ解析
 	body, _ := ioutil.ReadAll(r.Body)
@@ -28,9 +30,9 @@ func signUpHandlar(w http.ResponseWriter, r *http.Request) {
 	userPasseord := postedBody.Password
 
 	//　パラメータチェック
-	logger.Println("パラメータ:name =", userName)
-	logger.Println("パラメータ:email =", userEmail)
-	logger.Println("パラメータ:password =", userPasseord)
+	config.Logger.Println("パラメータ:name =", userName)
+	config.Logger.Println("パラメータ:email =", userEmail)
+	config.Logger.Println("パラメータ:password =", userPasseord)
 	if userName == "" || userEmail == "" || userPasseord == "" {
 		inResponseStatus(w, http.StatusBadRequest)
 		return
@@ -48,7 +50,7 @@ func signUpHandlar(w http.ResponseWriter, r *http.Request) {
 
 	ins, err := db.Prepare(query)
 	if err != nil {
-		logger.Println("ユーザー新規登録API:登録失敗", err)
+		config.Logger.Println("ユーザー新規登録API:登録失敗", err)
 		inResponseStatus(w, http.StatusInternalServerError)
 		return
 	}
@@ -57,14 +59,14 @@ func signUpHandlar(w http.ResponseWriter, r *http.Request) {
 	// 登録実行
 	_, err = ins.Exec(userPasseord, userName, userEmail)
 	if err != nil {
-		logger.Println("ユーザー新規登録API:登録失敗", err)
+		config.Logger.Println("ユーザー新規登録API:登録失敗", err)
 		inResponseStatus(w, http.StatusInternalServerError)
 		return
 	}
 
 	// 成功した場合
-	logger.Println("ユーザー新規登録API:登録成功")
+	config.Logger.Println("ユーザー新規登録API:登録成功")
 	inResponseStatus(w, http.StatusOK)
 
-	defer logger.Println("/api/signup  ----------end")
+	defer config.Logger.Println("/api/signup  ----------end")
 }

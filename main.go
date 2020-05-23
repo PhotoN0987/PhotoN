@@ -5,19 +5,21 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/y-moriwake/PhotoN/api"
+	"github.com/y-moriwake/PhotoN/config"
 )
 
 // メイン処理
 func main() {
 
-	logger.Println("----------サーバー起動開始----------")
+	config.Logger.Println("----------サーバー起動開始----------")
 
 	mux := http.NewServeMux()
 
 	// ハンドラ
 	mux.HandleFunc("/", index)
-	mux.HandleFunc("/api/login", loginHandlar)
-	mux.HandleFunc("/api/signup", signUpHandlar)
+	mux.HandleFunc("/api/login", api.LoginHandlar)
+	mux.HandleFunc("/api/signup", api.SignUpHandlar)
 
 	// サーバー設定
 	server := &http.Server{

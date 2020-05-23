@@ -1,10 +1,8 @@
-package main
+package config
 
 import (
-	"database/sql"
 	"io"
 	"log"
-	"net/http"
 	"os"
 
 	"gopkg.in/ini.v1"
@@ -18,7 +16,8 @@ type DbConfig struct {
 	Name string
 }
 
-var logger *log.Logger
+// Logger ロガークラス
+var Logger *log.Logger
 
 // Cnf データベースコンフィグ
 var Cnf DbConfig
@@ -30,7 +29,7 @@ func init() {
 	logfile, _ := os.OpenFile("photoN.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	multiLogfile := io.MultiWriter(os.Stdout, logfile)
 	log.SetOutput(multiLogfile)
-	logger = log.New(logfile, "INFO ", log.Ldate|log.Ltime|log.Lshortfile)
+	Logger = log.New(logfile, "INFO ", log.Ldate|log.Ltime|log.Lshortfile)
 
 	// データベース設定読み込み
 	c, _ := ini.Load("./config.ini")
@@ -40,22 +39,4 @@ func init() {
 		Host: c.Section("db").Key("host").String(),
 		Name: c.Section("db").Key("name").String(),
 	}
-}
-
-// ステータス設定
-func inResponseStatus(w http.ResponseWriter, status int) {
-	// レスポンスヘッダ追加(WriteHeaderの後に記述すると無効)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-}
-
-// DB接続
-func dbConnect() (*sql.DB, error) {
-
-	db, err := sql.Open("mysql", Cnf.User+":"+Cnf.Pass+"@"+Cnf.Host+"/"+Cnf.Name)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return db, err
 }
