@@ -12,6 +12,7 @@ import (
 // メイン処理
 func main() {
 
+	config.Initialization()
 	config.Logger.Println("----------サーバー起動開始----------")
 
 	mux := http.NewServeMux()

@@ -15,8 +15,8 @@ type DbConfig struct {
 	Name string
 }
 
-// DB接続
-func dbConnect() (*sql.DB, error) {
+// DbConnect DB接続
+func DbConnect() (*sql.DB, error) {
 
 	db, err := sql.Open("mysql", config.Cnf.User+":"+config.Cnf.Pass+"@"+config.Cnf.Host+"/"+config.Cnf.Name)
 	if err != nil {

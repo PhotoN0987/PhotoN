@@ -5,15 +5,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/y-moriwake/PhotoN/api/apirequest"
 	"github.com/y-moriwake/PhotoN/config"
 )
-
-// SignUpRequestBody リクエストのJSON
-type SignUpRequestBody struct {
-	Name     string
-	Email    string
-	Password string
-}
 
 // SignUpHandlar ユーザー新規登録
 func SignUpHandlar(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +16,7 @@ func SignUpHandlar(w http.ResponseWriter, r *http.Request) {
 
 	// パラメータ解析
 	body, _ := ioutil.ReadAll(r.Body)
-	var postedBody SignUpRequestBody
+	var postedBody apirequest.SignUpRequestBody
 	json.Unmarshal(body, &postedBody)
 
 	userName := postedBody.Name

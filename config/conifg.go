@@ -22,17 +22,19 @@ var Logger *log.Logger
 // Cnf データベースコンフィグ
 var Cnf DbConfig
 
-// 初期化処理(main()より先に実行)
-func init() {
+// Initialization 初期化処理(main()より先に実行)
+func Initialization() {
 
 	// ログ設定
-	logfile, _ := os.OpenFile("photoN.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	logfile, _ := os.OpenFile("./log/photoN.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	multiLogfile := io.MultiWriter(os.Stdout, logfile)
 	log.SetOutput(multiLogfile)
 	Logger = log.New(logfile, "INFO ", log.Ldate|log.Ltime|log.Lshortfile)
 
+	Logger.Println("----------start up PhotoN----------")
+
 	// データベース設定読み込み
-	c, _ := ini.Load("./config.ini")
+	c, _ := ini.Load("./config/config.ini")
 	Cnf = DbConfig{
 		User: c.Section("db").Key("user").String(),
 		Pass: c.Section("db").Key("pass").String(),
